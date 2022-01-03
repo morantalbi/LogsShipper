@@ -1,0 +1,149 @@
+h1 {
+  color: #99A799;
+  margin-bottom: 50px;
+  text-align: center;
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 10rem;
+}
+
+body {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Fjalla One', sans-serif;
+  background-color: #D3E4CD;
+  padding: 3% 10% 3%;
+}
+
+.title {
+  font-size: 1.5rem;
+}
+
+.toDateTime {
+  margin: 18px 0 0 18px;
+}
+
+.dateTimeSelection {
+  padding: 2%;
+  border-radius: 0.50rem;
+  background-color: #F2DDC1;
+}
+
+.myForm {
+  padding: 2%;
+  background-color: #E2C2B9;
+  border: solid;
+  border-radius: 0.35rem;
+  border-width: 2px;
+  border-color: #99A799;
+}
+
+.SelectSeverity {
+  padding: 2%;
+  border-radius: 0.50rem;
+  background-color: #F2DDC1;
+  margin-bottom: 10px;
+}
+
+.submitButton {
+  border-color: #99A799;
+  background-color: white;
+  color: grey;
+}
+
+.leftSeverityRadios {
+  padding-right: 25px;
+  border-right: dotted;
+  border-width: 2px;
+  border-color: #99A799;
+}
+
+.secondSeverityRadios{
+  padding-right: 25px;
+  border-right: dotted;
+  border-width: 2px;
+  border-color: #99A799;
+}
+
+.privateKeyInput{
+  border-color: #99A799;
+}
+
+.selectBox{
+  text-align: center;
+  width: 250px;
+  margin-left: 27px;
+  margin-top: 8px;
+  padding: 1%;
+  position: relative;
+}
+
+.logsInputArea{
+  padding: 2%;
+  border-radius: 0.50rem;
+  background-color: #F2DDC1;
+  margin: 10px 0 10px 0;
+}
+
+.isJsonSwitch{
+  margin-bottom: 20px;
+  /* display: block; */
+}
+.textBox{
+  position: relative;
+}
+
+.numOfLogsRange{
+  /* padding: 1% 1% 1% 0; */
+  border-radius: 0.50rem;
+  background-color: #F2DDC1;
+  margin: 10px 0 20px 0;
+  width: 400px;
+}
+
+
+#numOfLogsToShipSection{
+visibility: collapse;
+position: absolute;
+}
+
+#inputDynamicJsonEntey{
+  visibility: collapse;
+  position: absolute;
+  width: 400px;
+}
+
+#ShippingTimesRange{
+  /* display: inline; */
+  position: absolute;
+  margin-left: 20px;
+}
+
+.configArea{
+  padding: 2%;
+  border-radius: 0.50rem;
+  background-color: #F2DDC1;
+  margin: 10px 0 10px 0;
+}
+
+.configSelectors{
+  width: 800px;
+}
+.inputGroup_appAndServiceName{
+  margin-bottom: 20px;
+}
+
+.dynamicJsonValue{
+  margin-bottom: 20px;
+}
+
+.dynamicLogsSwitch{
+  margin-bottom: 20px;
+}
+
+.timesOfShippingLabel{
+  padding: 1%;
+}
+
+.timesOfShippingLabel_num{
+  padding: 1%;
+  color: #5AA469;
+}
