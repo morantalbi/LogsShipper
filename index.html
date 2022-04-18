@@ -349,12 +349,20 @@
 
   //Calling Coralogix REST API
   function sendAPIRequestToCoralogix(url, objectToPost) {
+    
+    JsonToPost = JSON.stringify(objectToPost);
+    try {  
+      json = JSON.parse(JsonToPost);
+      body_string = JsonToPost;
+} catch (e) {  
+  body_string = objectToPost;  
+}
     fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(objectToPost),
+      body: body_string,
     });
   }
 
