@@ -253,7 +253,7 @@
     //it will be within the last 15 minutes, so the user will see logs even if the query is last 15 minutes.
 
     // if(document.getElementById("floatingSelect").selectedindex)
-    CurrentTime = CurrentDate.getTime();
+ CurrentTime = CurrentDate.getTime();
     var selectedTimeInMiliseconds = getSelectedTimeInMioliseconds();
     MyLogPost.logEntries[0].timestamp = CurrentTime - selectedTimeInMiliseconds;
 
@@ -271,7 +271,7 @@
       var SelectedKey = (document.getElementById("floatingInputValue").value).split(",");
       var originValuesArray = [];
       for (var k = 0; k < SelectedKey.length; k++) {
-       originValuesArray.push(text[SelectedKey[k]]);
+        originValuesArray.push(text[SelectedKey[k]]);
       }
 
       // text[SelectedKey[k]] = text[SelectedKey[k]] + "_" + i;
@@ -280,12 +280,25 @@
     for (var i = 1; i <= numOfBulksToSend; i++) {
 
       MyLogPost.logEntries[0].timestamp = MyLogPost.logEntries[0].timestamp + timeHopsBetweenBulks;
-
       if (isDynamicLogSend) {
+        // prompt(typeof(originValuesArray[0]));
         for (var k = 0; k < SelectedKey.length; k++) {
-         text[SelectedKey[k]] = originValuesArray[k] + "_" + i;
+
+          if (typeof(originValuesArray[k]) == "number") {
+            // prompt("inside Number!  " + "type of is: " + typeof(originValuesArray[k]) + "  " + originValuesArray[k]);
+
+            text[SelectedKey[k]] = originValuesArray[k] + i;
+
+          } else {
+            // for (var j = 0; j < SelectedKey.length; j++) {
+            text[SelectedKey[k]] = originValuesArray[k] + "_" + i;
+            // prompt("inside String!  " + "type of is: " + typeof(originValuesArray[k]) + "  " + originValuesArray[k]);
+
+          }
         }
+
       }
+
 
 
       MyLogPost.logEntries[0].text = text;
