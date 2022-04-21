@@ -15,7 +15,8 @@
 
 </head>
 
-<!-- Start of coralogixsupport Zendesk Widget script --><script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=e8b2d690-f2f1-4fcf-a92f-d74ca8855073"> </script><!-- End of coralogixsupport Zendesk Widget script -->
+<!-- Start of coralogixsupport Zendesk Widget script -->
+<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=e8b2d690-f2f1-4fcf-a92f-d74ca8855073"> </script><!-- End of coralogixsupport Zendesk Widget script -->
 
 <body>
 
@@ -122,7 +123,7 @@
             <option value="2">coralogix.us</option>
             <option value="3">app.coralogix.in</option>
             <option value="4">app.coralogix.eu2</option>
-           <option value="5">app.coralogix.net</option>
+            <option value="5">app.coralogix.net</option>
           </select>
         </div>
       </div>
@@ -185,28 +186,26 @@
 </body>
 
 <script>
-  //document.write(severitySelection[1].value);
-
-  //document.write("Start sending logs \r\n");
-
-  //alert("Private Key:" + PrivateKey + "  ");
-  //alert("Application Name:" + ApplicationName + "  ");
-  //alert("SubsystemName:" + SubsystemName + "  ");
-  //alert("Current Time:" + CurrentTime.getTime());
-  //var EntryPrivateKey="fe8ee37d-203d-51e5-9e41-8830271c2df3";
-
-
-
 
 
   function shipLogs() {
 
-    // var name = "Mor";
-    // var Age = 27;
-    // prompt("Type of Age: " + typeof(Age) + "Type of name: " + typeof(name));
 
+    var isJson = true;
+    var text;
     var severitySelection = document.getElementsByName('severitySelector');
-    const text = document.getElementById("logMessageInput").value;
+    try {
+      text = JSON.parse(document.getElementById("logMessageInput").value);
+      prompt("this is a json = " + isJson);
+      prompt(text);
+
+    } catch (e) {
+      text = document.getElementById("logMessageInput").value;
+      isJson = false;
+      prompt("not a json , is Json = " + isJson);
+      prompt(text);
+    }
+
 
 
     var ActionIndex = 0;
@@ -244,16 +243,7 @@
     var MyLogPost = buildLogPost(severity)
 
 
-
-    // MyLogPost[logEntries]["test"] = "Moran";
-    // prompt(MyLogPost.logEntries[3].test);
-
-
-    //Getting the time field to current time - 10 minutes. The idea is that the
-    //it will be within the last 15 minutes, so the user will see logs even if the query is last 15 minutes.
-
-    // if(document.getElementById("floatingSelect").selectedindex)
- CurrentTime = CurrentDate.getTime();
+    CurrentTime = CurrentDate.getTime();
     var selectedTimeInMiliseconds = getSelectedTimeInMioliseconds();
     MyLogPost.logEntries[0].timestamp = CurrentTime - selectedTimeInMiliseconds;
 
@@ -265,111 +255,90 @@
 
     var timeHopsBetweenBulks = selectedTimeInMiliseconds / numOfBulksToSend;
     //In case of dynamic logs - create an array with original data
-    if (document.getElementById("dynamicLogsSwitch").checked) {
+    if (document.getElementById("dynamicLogsSwitch").checked && isJson == true) {
 
-      isDynamicLogSend = true;
-      var SelectedKey = (document.getElementById("floatingInputValue").value).split(",");
-      var originValuesArray = [];
-      for (var k = 0; k < SelectedKey.length; k++) {
-        originValuesArray.push(text[SelectedKey[k]]);
-      }
-
-      // text[SelectedKey[k]] = text[SelectedKey[k]] + "_" + i;
-
-    }
-    for (var i = 1; i <= numOfBulksToSend; i++) {
-
-      MyLogPost.logEntries[0].timestamp = MyLogPost.logEntries[0].timestamp + timeHopsBetweenBulks;
-      if (isDynamicLogSend) {
-        // prompt(typeof(originValuesArray[0]));
+        isDynamicLogSend = true;
+        var SelectedKey = (document.getElementById("floatingInputValue").value).split(",");
+        var originValuesArray = [];
         for (var k = 0; k < SelectedKey.length; k++) {
+          originValuesArray.push(text[SelectedKey[k]]);
+        }
 
-          if (typeof(originValuesArray[k]) == "number") {
-            // prompt("inside Number!  " + "type of is: " + typeof(originValuesArray[k]) + "  " + originValuesArray[k]);
+}
+        for (var i = 1; i <= numOfBulksToSend; i++) {
 
-            text[SelectedKey[k]] = originValuesArray[k] + i;
+          MyLogPost.logEntries[0].timestamp = MyLogPost.logEntries[0].timestamp + timeHopsBetweenBulks;
+          if (isDynamicLogSend) {
+            //prompt(typeof(originValuesArray[0]));
+            for (var k = 0; k < SelectedKey.length; k++) {
 
-          } else {
-            // for (var j = 0; j < SelectedKey.length; j++) {
-            text[SelectedKey[k]] = originValuesArray[k] + "_" + i;
-            // prompt("inside String!  " + "type of is: " + typeof(originValuesArray[k]) + "  " + originValuesArray[k]);
+              if (typeof(originValuesArray[k]) == "number") {
+                // prompt("inside Number!  " + "type of is: " + typeof(originValuesArray[k]) + "  " + originValuesArray[k]);
 
+                text[SelectedKey[k]] = originValuesArray[k] + i;
+
+              } else {
+                // for (var j = 0; j < SelectedKey.length; j++) {
+                text[SelectedKey[k]] = originValuesArray[k] + "_" + i;
+                // prompt("inside String!  " + "type of is: " + typeof(originValuesArray[k]) + "  " + originValuesArray[k]);
+
+              }
+            }
           }
-        }
 
+
+
+      // prompt("not a valid JSON");
+
+
+    MyLogPost.logEntries[0].text = text;
+    // prompt(MyLogPost.logEntries[0].text);
+
+    //document.write(".... \r\n");
+    switch (document.getElementById("domainSelectionDropbox").value) {
+      case '1': {
+        var httpReferer = 'https://api.coralogix.com/api/v1/logs';
+        break;
       }
-
-
-
-      MyLogPost.logEntries[0].text = text;
-      // prompt(MyLogPost.logEntries[0].text);
-
-      //document.write(".... \r\n");
-      switch (document.getElementById("domainSelectionDropbox").value) {
-        case '1': {
-          var httpReferer = 'https://api.coralogix.com/api/v1/logs';
-          break;
-        }
-        case '2': {
-          var httpReferer = 'https://api.coralogix.us/api/v1/logs';
-          break;
-        }
-        case '3': {
-          var httpReferer = 'https://api.app.coralogix.in/api/v1/logs';
-          break;
-        }
-          case '4': {
-          var httpReferer = 'https://api.app.coralogix.eu2/api/v1/logs';
-          break;
-        }
-          case '5': {
-          var httpReferer = 'https://api.app.coralogix.net/api/v1/logs';
-          break;
-        }
+      case '2': {
+        var httpReferer = 'https://api.coralogix.us/api/v1/logs';
+        break;
       }
-      //Calling Coralogix REST API
-      sendAPIRequestToCoralogix(httpReferer, MyLogPost);
-      //      document.getElementById("thumbsUpIcon").style.display = "none";
-      //      setTimeout(() => {document.getElementById("thumbsUpIcon").style.display = "block";
-      // }, 5000);
-
+      case '3': {
+        var httpReferer = 'https://api.app.coralogix.in/api/v1/logs';
+        break;
+      }
+      case '4': {
+        var httpReferer = 'https://api.app.coralogix.eu2/api/v1/logs';
+        break;
+      }
+      case '5': {
+        var httpReferer = 'https://api.app.coralogix.net/api/v1/logs';
+        break;
+      }
     }
-
-    //document.write(" .................... Finished sending logs");
+    //Calling Coralogix REST API
+    sendAPIRequestToCoralogix(httpReferer, MyLogPost);
+    // prompt("sending to Coralogix, Age+ " + i);
 
   }
+
+}
 
   /*=======================================================================
                               Functions Area
   =========================================================================The */
 
-  // function setUpFirstLogText(isJsonLog, text) {
-  //
-  //       //Json Log
-  //   if (isJsonLog) {
-  //     return text;
-  //   //Unstructured Log
-  //   // else {
-  //   //   return JSON.stringify(text);
-  //   // }
-  //
-  //
-  //   // "crx_user_id": 12345,
-  //   // "crx_error_message": "message type - 4",
-  //   // "crx_error_code": 200
-  //
-  // }
-
   //Calling Coralogix REST API
   function sendAPIRequestToCoralogix(url, objectToPost) {
-    
+
     JsonToPost = JSON.stringify(objectToPost);
-    try {  
+    try {
       json = JSON.parse(JsonToPost);
       body_string = JsonToPost;
-} catch (e) {  
-  body_string = objectToPost;  
-}
+    } catch (e) {
+      body_string = objectToPost;
+    }
     fetch(url, {
       method: 'POST',
       headers: {
@@ -392,8 +361,7 @@
       "text": " "
     };
 
-    // logEntriesJsonObj['test'] = "Moran";
-    // prompt(logEntriesJsonObj.test);
+
     if (!EntryApplicationName) {
       EntryApplicationName = "test_AppName";
     }
